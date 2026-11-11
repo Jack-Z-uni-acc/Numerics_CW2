@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 
 # Parameters
 
-dx = 2e5
+dx = 2e4
 g = 10
 L = 8e6
 H = 1e4
@@ -52,13 +52,14 @@ def step_u(u_current, h):
 
 # System timestep
 
-def step(current_values):
+def step(current_levels):
 
-	[u_current, h_current] = current_values
+	[u_current, h_current] = current_levels[-1]
 	h = step_h(u_current, h_current)
 	u = step_u(u_current, h)
+	current_levels.append([u, h])
 
-	return [u, h]
+	return None
 
 '''
 	Main function to run experiment and analysis
@@ -66,7 +67,23 @@ def step(current_values):
 
 def main():
 
+	nt = 5
+
 	init = initial_condition(x_grid)
+	levels = [[init, init]]
+
+	for _ in range(nt):
+
+		step(levels)
+
+	# levels is now a list length nt+1, each entry is a list length 2.
+	# Entry 1 of each entry of levels is u, entry 2 is h at the current level
+
+	plt.plot(x_grid, levels[0][0], label='Initial condition for u')
+	plt.plot(x_grid, levels[3][0], label='u at intermediate time')
+	plt.plot(x_grid, levels[-1][0], label='u at final time')
+	plt.legend()
+	plt.show()
 
 if __name__ == '__main__':
 
