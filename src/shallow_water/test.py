@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 
 # Parameters
 
-dx = 2e-5
+dx = 2e5
 g = 10
 L = 8e6
 H = 1e4
@@ -28,7 +28,7 @@ x_grid = np.arange(x_lim[0], x_lim[-1], dx)
 def initial_condition(x):
 
 	in_domain = lambda x: (x > L / 3) & (x < 2 * L / 3)
-	arg_fn = lambda x: (1 - np.cos(6 * np.pi * (x - L / 3) \ L)) / 2
+	arg_fn = lambda x: (1 - np.cos(6 * np.pi * (x - L / 3) / L)) / 2
 
 	return in_domain(x) * arg_fn(x)
 
