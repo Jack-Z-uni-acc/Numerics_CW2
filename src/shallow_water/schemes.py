@@ -1,9 +1,5 @@
 import numpy as np
 
-'''
-	Colocated schemes
-'''
-
 def colocated_step(dependent_var, independent_var, const):
 
 	dependent_var_update = dependent_var.copy()
@@ -27,7 +23,7 @@ def initial_condition(x, L):
 
 	return in_domain(x) * arg_fn(x)
 
-def initialise_colocated(model_params):
+def initialise_colocated(model_params, display_values=True):
 
 	(dx, dt, g, L, H, init) = model_params
 	x_grid = np.arange(0, L, dx)
@@ -35,4 +31,17 @@ def initialise_colocated(model_params):
 	levels = [[initial_condition.copy(), initial_condition.copy()]]
 	constants = (H * dt / dx / 2, g * dt / dx / 2)
 
-	return (levels, constants), x_grid
+	if display_values:
+		courant_number = np.sqrt(g * H) * dt / dx
+		print(f'Courant number for gravity waves: {courant_number}')
+		required_dt = dx / np.sqrt(g * H)
+		print(f'Required timestep for stability: {int(np.floor(required_dt))}s\n')
+
+	return (levels, constants), x_grid, required_dt
+
+def spurious_h(x, _):
+
+	out = list(np.ones(x.shape))
+	out = [-1 if i % 2 == 1 else elem for i, elem in enumerate(out)]
+
+	return np.array(out)
