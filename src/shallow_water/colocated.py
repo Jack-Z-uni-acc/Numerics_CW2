@@ -59,7 +59,7 @@ def main():
 	stable_dt = solve('unstable')
 	solve('stable', dt=stable_dt)
 	error_initial = solve('full_revolution', dt=stable_dt, full_revolution=True)
-	error_new = solve('full_revolution', dt=stable_dt/2, dx=1e5, full_revolution=True)
+	error_new = solve('full_revolution_hi_res', dt=stable_dt/2, dx=1e5, full_revolution=True)
 
 	print(f'Ratio of error reduction when doubling resolution: {error_new / error_initial}\n')
 
