@@ -6,5 +6,3 @@ def l2_error(numerical_solution, actual_solution):
 	mean_squared_error = np.sum(normalised_difference)
 
 	return np.sqrt(mean_squared_error)
-
-
