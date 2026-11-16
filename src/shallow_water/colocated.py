@@ -48,7 +48,7 @@ def main():
 		plt.clf()
 
 		if full_revolution:
-			l2_error_u = l2_error(levels[0][0], levels[-1][0])
+			l2_error_u = l2_error(levels[-1][0], levels[0][0])
 			print(f'Error after 2 revolutions from initial condition: {l2_error_u}\n')
 
 			return l2_error_u
