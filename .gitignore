@@ -2,3 +2,4 @@ MODELS.md
 pyproject.toml
 uv.lock
 .python-version
+__pycache__
