@@ -3,28 +3,30 @@ from schemes import initialise_colocated as initialise
 from schemes import initial_condition as init
 import matplotlib.pyplot as plt
 
-'''
-	Parameters
-'''
+def solve_colocated(nt, dx=2e5, dt=6*60**2, g=10, L=8e6, H=1e4):
 
-dx = 2e5
-dt = 600
-g = 10
-L = 8e6
-H = 1e4
+	model_params = (dx, dt, g, L, H, init)
+	model, x_grid = initialise(model_params)
 
-model_params = (dx, dt, g, L, H, init)
-model, x_grid = initialise(model_params)
+	nt = 5
 
-nt = 5
+	(levels, _) = model
+	plt.plot(x_grid, levels[-1][0], label='u at timestep 0')
 
-for _ in range(nt):
+	for t in range(nt):
 
-	step(model)
+		step(model)
+		(levels, _) = model
+		plt.plot(x_grid, levels[-1][0], label=f'u at timestep {t + 1}')
 
-(levels, _) = model
+	plt.yscale('log')
+	plt.legend()
+	plt.show()
 
-plt.plot(x_grid, levels[0][0], label='Initial condition for u')
-plt.plot(x_grid, levels[-1][0], label='u at final time')
-plt.legend()
-plt.show()
+def main():
+
+	solve_colocated(5)
+
+if __name__ == '__main__':
+	
+	main()
